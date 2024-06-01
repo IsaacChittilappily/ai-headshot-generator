@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 
 //const astriaApiKey = process.env.ASTRIA_API_KEY;
 //const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
+const astriaTestModeIsOn = true;
 // For local development, recommend using an Ngrok tunnel for the domain
 
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
