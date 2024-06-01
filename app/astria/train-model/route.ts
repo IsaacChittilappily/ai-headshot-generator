@@ -51,14 +51,14 @@ export async function POST(request: Request) {
   //   );
   // }
 
-  if (images?.length < 4) {
-    return NextResponse.json(
-      {
-        message: "Upload at least 4 sample images",
-      },
-      { status: 500 }
-    );
-  }
+  // if (images?.length < 4) {
+  //   return NextResponse.json(
+  //     {
+  //       message: "Upload at least 4 sample images",
+  //     },
+  //     { status: 500 }
+  //   );
+  // }
   let _credits = null;
   console.log({ stripeIsConfigured });
   if (stripeIsConfigured) {
