@@ -1,5 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from "next/headers";
+import { createClient } from '@/utils/supabase/client'
 import { redirect } from "next/navigation";
 import StripePricingTable from "@/components/stripe/StripeTable";
 
