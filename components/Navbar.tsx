@@ -1,5 +1,5 @@
 import { AvatarIcon } from "@radix-ui/react-icons";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from '@/utils/supabase/server'
 import { cookies } from "next/headers";
 import {
   DropdownMenu,
@@ -22,7 +22,7 @@ const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
 export const revalidate = 0;
 
 export default async function Navbar() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createClient();
 
   const {
     data: { user },

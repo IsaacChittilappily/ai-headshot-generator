@@ -30,3 +30,7 @@ export const LoginFail = ({
         </div>
     );
 };
+
+export default function ErrorPage() {
+    return <p>Sorry, something went wrong</p>
+  }
