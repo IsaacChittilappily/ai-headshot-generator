@@ -6,8 +6,8 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const astriaApiKey = process.env.ASTRIA_API_KEY;
-const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
+//const astriaApiKey = process.env.ASTRIA_API_KEY;
+//const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
 // For local development, recommend using an Ngrok tunnel for the domain
 
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
     const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
     const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&webhook_secret=${appWebhookSecret}`;
 
-    const API_KEY = astriaApiKey;
+    //const API_KEY = astriaApiKey;
     const DOMAIN = "https://api.astria.ai";
 
     const body = {
