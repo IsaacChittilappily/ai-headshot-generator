@@ -1,7 +1,6 @@
 import ClientSideModelsList from "@/components/realtime/ClientSideModelsList";
 import { Database } from "@/types/supabase";
 import { createClient } from '@/utils/supabase/server'
-import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
