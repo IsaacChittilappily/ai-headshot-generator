@@ -59,7 +59,6 @@ export async function POST(request: Request) {
     );
   }
   let _credits = null;
-
   console.log({ stripeIsConfigured });
   if (stripeIsConfigured) {
     const { error: creditError, data: credits } = await supabase
