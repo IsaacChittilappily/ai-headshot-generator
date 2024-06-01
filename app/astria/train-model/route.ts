@@ -151,75 +151,75 @@ export async function POST(request: Request) {
       },
     };
 
-    const response = await axios.post(DOMAIN + "/tunes", body, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    });
+    // const response = await axios.post(DOMAIN + "/tunes", body, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${API_KEY}`,
+    //   },
+    // });
 
     const { status, statusText, data: tune } = response;
 
-    if (status !== 201) {
-      console.error({ status });
-      if (status === 400) {
-        return NextResponse.json(
-          {
-            message: "webhookUrl must be a URL address",
-          },
-          { status }
-        );
-      }
-      if (status === 402) {
-        return NextResponse.json(
-          {
-            message: "Training models is only available on paid plans.",
-          },
-          { status }
-        );
-      }
-    }
+    // if (status !== 201) {
+    //   console.error({ status });
+    //   if (status === 400) {
+    //     return NextResponse.json(
+    //       {
+    //         message: "webhookUrl must be a URL address",
+    //       },
+    //       { status }
+    //     );
+    //   }
+    //   if (status === 402) {
+    //     return NextResponse.json(
+    //       {
+    //         message: "Training models is only available on paid plans.",
+    //       },
+    //       { status }
+    //     );
+    //   }
+    // }
 
-    const { error: modelError, data } = await supabase
-      .from("models")
-      .insert({
-        modelId: tune.id, // store tune Id field to retrieve workflow object if needed later
-        user_id: user.id,
-        name,
-        type,
-      })
-      .select("id")
-      .single();
+    // const { error: modelError, data } = await supabase
+    //   .from("models")
+    //   .insert({
+    //     modelId: tune.id, // store tune Id field to retrieve workflow object if needed later
+    //     user_id: user.id,
+    //     name,
+    //     type,
+    //   })
+    //   .select("id")
+    //   .single();
 
-    if (modelError) {
-      console.error("modelError: ", modelError);
-      return NextResponse.json(
-        {
-          message: "Something went wrong!",
-        },
-        { status: 500 }
-      );
-    }
+    // if (modelError) {
+    //   console.error("modelError: ", modelError);
+    //   return NextResponse.json(
+    //     {
+    //       message: "Something went wrong!",
+    //     },
+    //     { status: 500 }
+    //   );
+    // }
 
     // Get the modelId from the created model
-    const modelId = data?.id;
+    // const modelId = data?.id;
 
-    const { error: samplesError } = await supabase.from("samples").insert(
-      images.map((sample: string) => ({
-        modelId: modelId,
-        uri: sample,
-      }))
-    );
+    // const { error: samplesError } = await supabase.from("samples").insert(
+    //   images.map((sample: string) => ({
+    //     modelId: modelId,
+    //     uri: sample,
+    //   }))
+    // );
 
-    if (samplesError) {
-      console.error("samplesError: ", samplesError);
-      return NextResponse.json(
-        {
-          message: "Something went wrong!",
-        },
-        { status: 500 }
-      );
-    }
+    // if (samplesError) {
+    //   console.error("samplesError: ", samplesError);
+    //   return NextResponse.json(
+    //     {
+    //       message: "Something went wrong!",
+    //     },
+    //     { status: 500 }
+    //   );
+    // }
 
     if (stripeIsConfigured && _credits && _credits.length > 0) {
       const subtractedCredits = _credits[0].credits - 1;
