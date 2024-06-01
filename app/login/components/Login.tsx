@@ -80,13 +80,14 @@ export const Login = ({
   };
 
   const signInWithMagicLink = async (email: string) => {
+    console.log("Signing in with magic link")
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: redirectUrl,
       },
     });
-
+    console.log("Completed sign-in")
     if (error) {
       console.log(`Error: ${error.message}`);
     }

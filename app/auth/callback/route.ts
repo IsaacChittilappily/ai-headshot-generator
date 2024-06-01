@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const error = requestUrl.searchParams.get("error");
   const next = requestUrl.searchParams.get("next") || "/";
   const error_description = requestUrl.searchParams.get("error_description");
+  console.log("In callback")
 
   if (error) {
     console.log("error: ", {
@@ -20,6 +21,8 @@ export async function GET(req: NextRequest) {
   }
 
   if (code) {
+
+    console.log("Found code")
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
     try {
@@ -55,6 +58,6 @@ export async function GET(req: NextRequest) {
       }
     }
   }
-
+  console.log(`redirecting to: ${req.url}`);
   return NextResponse.redirect(new URL(next, req.url));
 }
