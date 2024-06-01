@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type') as EmailOtpType | null
   const next = searchParams.get('next') ?? '/'
-
+  console.log(`redirecting to  ${next} `)
   const redirectTo = request.nextUrl.clone()
   redirectTo.pathname = next
   redirectTo.searchParams.delete('token_hash')
