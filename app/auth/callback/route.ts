@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const error = requestUrl.searchParams.get("error");
   const next = requestUrl.searchParams.get("next") || "/";
   const error_description = requestUrl.searchParams.get("error_description");
+  const origin = requestUrl.origin;
   console.log("In callback")
 
   if (error) {
@@ -59,5 +60,6 @@ export async function GET(req: NextRequest) {
     }
   }
   console.log(`redirecting to: ${req.url}`);
-  return NextResponse.redirect(new URL(next, req.url));
+  //return NextResponse.redirect(new URL(next, req.url));
+  return NextResponse.redirect(`${origin}/overview`);
 }
