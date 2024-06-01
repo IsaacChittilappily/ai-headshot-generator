@@ -38,17 +38,17 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!astriaApiKey) {
-    return NextResponse.json(
-      {
-        message:
-          "Missing API Key: Add your Astria API Key to generate headshots",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  // if (!astriaApiKey) {
+  //   return NextResponse.json(
+  //     {
+  //       message:
+  //         "Missing API Key: Add your Astria API Key to generate headshots",
+  //     },
+  //     {
+  //       status: 500,
+  //     }
+  //   );
+  // }
 
   if (images?.length < 4) {
     return NextResponse.json(
