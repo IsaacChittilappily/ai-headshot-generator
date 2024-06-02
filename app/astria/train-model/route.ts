@@ -6,8 +6,9 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const astriaApiKey = process.env.ASTRIA_API_KEY;
-const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
+//const astriaApiKey = process.env.ASTRIA_API_KEY;
+//const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
+const astriaTestModeIsOn = true;
 // For local development, recommend using an Ngrok tunnel for the domain
 
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
@@ -38,28 +39,27 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!astriaApiKey) {
-    return NextResponse.json(
-      {
-        message:
-          "Missing API Key: Add your Astria API Key to generate headshots",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  // if (!astriaApiKey) {
+  //   return NextResponse.json(
+  //     {
+  //       message:
+  //         "Missing API Key: Add your Astria API Key to generate headshots",
+  //     },
+  //     {
+  //       status: 500,
+  //     }
+  //   );
+  // }
 
-  if (images?.length < 4) {
-    return NextResponse.json(
-      {
-        message: "Upload at least 4 sample images",
-      },
-      { status: 500 }
-    );
-  }
+  // if (images?.length < 4) {
+  //   return NextResponse.json(
+  //     {
+  //       message: "Upload at least 4 sample images",
+  //     },
+  //     { status: 500 }
+  //   );
+  // }
   let _credits = null;
-
   console.log({ stripeIsConfigured });
   if (stripeIsConfigured) {
     const { error: creditError, data: credits } = await supabase
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
     const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
     const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&webhook_secret=${appWebhookSecret}`;
 
-    const API_KEY = astriaApiKey;
+    //const API_KEY = astriaApiKey;
     const DOMAIN = "https://api.astria.ai";
 
     const body = {
@@ -152,75 +152,75 @@ export async function POST(request: Request) {
       },
     };
 
-    const response = await axios.post(DOMAIN + "/tunes", body, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    });
+    // const response = await axios.post(DOMAIN + "/tunes", body, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${API_KEY}`,
+    //   },
+    // });
 
-    const { status, statusText, data: tune } = response;
+    // const { status, statusText, data: tune } = response;
 
-    if (status !== 201) {
-      console.error({ status });
-      if (status === 400) {
-        return NextResponse.json(
-          {
-            message: "webhookUrl must be a URL address",
-          },
-          { status }
-        );
-      }
-      if (status === 402) {
-        return NextResponse.json(
-          {
-            message: "Training models is only available on paid plans.",
-          },
-          { status }
-        );
-      }
-    }
+    // if (status !== 201) {
+    //   console.error({ status });
+    //   if (status === 400) {
+    //     return NextResponse.json(
+    //       {
+    //         message: "webhookUrl must be a URL address",
+    //       },
+    //       { status }
+    //     );
+    //   }
+    //   if (status === 402) {
+    //     return NextResponse.json(
+    //       {
+    //         message: "Training models is only available on paid plans.",
+    //       },
+    //       { status }
+    //     );
+    //   }
+    // }
 
-    const { error: modelError, data } = await supabase
-      .from("models")
-      .insert({
-        modelId: tune.id, // store tune Id field to retrieve workflow object if needed later
-        user_id: user.id,
-        name,
-        type,
-      })
-      .select("id")
-      .single();
+    // const { error: modelError, data } = await supabase
+    //   .from("models")
+    //   .insert({
+    //     modelId: tune.id, // store tune Id field to retrieve workflow object if needed later
+    //     user_id: user.id,
+    //     name,
+    //     type,
+    //   })
+    //   .select("id")
+    //   .single();
 
-    if (modelError) {
-      console.error("modelError: ", modelError);
-      return NextResponse.json(
-        {
-          message: "Something went wrong!",
-        },
-        { status: 500 }
-      );
-    }
+    // if (modelError) {
+    //   console.error("modelError: ", modelError);
+    //   return NextResponse.json(
+    //     {
+    //       message: "Something went wrong!",
+    //     },
+    //     { status: 500 }
+    //   );
+    // }
 
     // Get the modelId from the created model
-    const modelId = data?.id;
+    // const modelId = data?.id;
 
-    const { error: samplesError } = await supabase.from("samples").insert(
-      images.map((sample: string) => ({
-        modelId: modelId,
-        uri: sample,
-      }))
-    );
+    // const { error: samplesError } = await supabase.from("samples").insert(
+    //   images.map((sample: string) => ({
+    //     modelId: modelId,
+    //     uri: sample,
+    //   }))
+    // );
 
-    if (samplesError) {
-      console.error("samplesError: ", samplesError);
-      return NextResponse.json(
-        {
-          message: "Something went wrong!",
-        },
-        { status: 500 }
-      );
-    }
+    // if (samplesError) {
+    //   console.error("samplesError: ", samplesError);
+    //   return NextResponse.json(
+    //     {
+    //       message: "Something went wrong!",
+    //     },
+    //     { status: 500 }
+    //   );
+    // }
 
     if (stripeIsConfigured && _credits && _credits.length > 0) {
       const subtractedCredits = _credits[0].credits - 1;
